@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifeline – Emergency Blood Request Platform</title>
+  <meta name="description" content="Lifeline is an AI-powered emergency blood request and donor matching platform. Save lives with every drop!">
+  <meta property="og:title" content="Lifeline – Emergency Blood Request Platform">
+  <meta property="og:description" content="AI-powered emergency blood request and donor matching platform. Save lives with every drop!">
+  <meta property="og:image" content="https://img.freepik.com/free-vector/blood-donation-concept-illustration_114360-7962.jpg?w=700">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lifeline – Emergency Blood Request Platform">
+  <meta name="twitter:description" content="AI-powered emergency blood request and donor matching platform. Save lives with every drop!">
+  <meta name="twitter:image" content="https://img.freepik.com/free-vector/blood-donation-concept-illustration_114360-7962.jpg?w=700">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --main-red: #c70000;
+      --main-pink: #ff4d4d;
+      --main-bg: #fff;
+      --main-bg-dark: #181818;
+      --main-card: #fff;
+      --main-card-dark: #232323;
+      --main-text: #333;
+      --main-text-dark: #eee;
+      --main-border: #ffb3b3;
+      --main-border-dark: #333;
+      --highlight: #fff5f5;
+      --highlight-dark: #2a2a2a;
+      --badge: #ffeaea;
+      --badge-dark: #2a2a2a;
+    }
+    [data-theme="dark"] {
+      --main-bg: #181818;
+      --main-card: #232323;
+      --main-text: #eee;
+      --main-border: #333;
+      --highlight: #2a2a2a;
+      --badge: #2a2a2a;
+    }
+    /* Full black intro splash */
+    .splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 2s ease forwards;
+      animation-delay: 3s;
+    }
+    .splash h1 {
+      font-size: 2.8em;
+      text-align: center;
+      background: linear-gradient(90deg, #ff1a1a, #ff751a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    header {
+      background: linear-gradient(90deg, #ff1a1a, #ff751a);
+      color: white;
+      padding: 20px 50px;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    header .hero-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://svgshare.com/i/14nG.svg') center/cover no-repeat;
+      opacity: 0.13;
+      z-index: 0;
+      pointer-events: none;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      text-shadow: 0 2px 8px #18181844;
+    }
+    header .pulse {
+      animation: pulse 1.5s infinite;
+      font-size: 2.2rem;
+      color: #fff;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1);}
+      50% { transform: scale(1.2);}
+      100% { transform: scale(1);}
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 2;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #fff;
+      transition: background 0.2s;
+    }
+    .dark-toggle:hover {
+      background: rgba(255,255,255,0.28);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #8b0000;
+      padding: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 18px;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: color 0.3s, transform 0.2s;
+    }
+    nav a:hover { color: #ffd6d6; transform: scale(1.1); }
+    .container {
+      display: none;
+      padding: 2.5rem 1rem 1rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeIn 0.7s;
+    }
+    .container.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h2, h3 {
+      color: #c70000;
+      margin-top: 0;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .card {
+      background: #fff;
+      border: 2px solid #ffb3b3;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px rgba(199,0,0,0.07);
+      transition: box-shadow 0.2s, transform 0.2s;
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+      animation: popIn 0.6s forwards;
+    }
+    .card:nth-child(1) { animation-delay: 0.05s;}
+    .card:nth-child(2) { animation-delay: 0.15s;}
+    .card:nth-child(3) { animation-delay: 0.25s;}
+    .card:nth-child(4) { animation-delay: 0.35s;}
+    @keyframes popIn {
+      to { opacity: 1; transform: scale(1) translateY(0);}
+    }
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(199,0,0,0.13);
+      transform: scale(1.025) translateY(-2px);
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #b30000, #ff4d4d);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: none;
+      box-shadow: 0 2px 8px rgba(199,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(179,0,0,0.5);}
+    .btn .spinner {
+      display: inline-block;
+      width: 1.2em;
+      height: 1.2em;
+      border: 3px solid #fff;
+      border-top: 3px solid #ff4d4d;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5em;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg);}
+    }
+    .alert-box {
+      background: #fff5f5;
+      border: 2px solid #c70000;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px rgba(199,0,0,0.05);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    .alert-box strong {
+      color: #c70000;
+    }
+    select, input[type="text"] {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1.5px solid #c70000;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+      background: #fff;
+      color: #c70000;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+    label {
+      font-weight: 600;
+      color: #c70000;
+      font-size: 1.1rem;
+    }
+    .bank-list, .donor-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 700px) {
+      .bank-list, .donor-list {
+        grid-template-columns: 1fr;
+      }
+      nav a {
+        padding: 1rem 0.7rem;
+        font-size: 1rem;
+      }
+    }
+    .about-highlight {
+      background: #fff5f5;
+      border-left: 5px solid #c70000;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    .donor-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.7rem;
+      border: 2px solid #c70000;
+      vertical-align: middle;
+    }
+    .footer-social {
+      margin-top: 0.5rem;
+    }
+    .footer-social a {
+      color: #fff;
+      margin: 0 0.5rem;
+      font-size: 1.3rem;
+      transition: color 0.2s;
+    }
+    .footer-social a:hover {
+      color: #ff4d4d;
+    }
+    .search-input {
+      margin-bottom:1rem;
+      width:100%;
+      padding:0.7rem;
+      border-radius:6px;
+      border:1.5px solid #c70000;
+      font-size:1rem;
+      color:#c70000;
+      font-weight:bold;
+      background:#fff;
+      box-sizing:border-box;
+      transition: background 0.3s, color 0.3s;
+    }
+    .highlight {
+      background: #ffeaea;
+      color: #c70000;
+      border-radius: 4px;
+      padding: 0 2px;
+      font-weight: bold;
+    }
+    .badge {
+      display: inline-block;
+      background: #ffeaea;
+      color: #c70000;
+      border-radius: 12px;
+      padding: 0.2em 0.8em;
+      font-size: 0.95em;
+      margin-left: 0.5em;
+      font-weight: bold;
+      vertical-align: middle;
+      border: 1px solid #c70000;
+      box-shadow: 0 1px 4px rgba(199,0,0,0.07);
+    }
+    .progress-bar {
+      background: #ffeaea;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 18px;
+      margin: 0.5em 0 1.5em 0;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 1px 4px rgba(199,0,0,0.07);
+    }
+    .progress-bar-inner {
+      background: linear-gradient(90deg, #c70000 60%, #ff4d4d 100%);
+      height: 100%;
+      color: #fff;
+      font-size: 0.95em;
+      font-weight: bold;
+      text-align: right;
+      padding-right: 0.7em;
+      border-radius: 8px 0 0 8px;
+      transition: width 1.2s cubic-bezier(.4,2,.6,1);
+      line-height: 18px;
+    }
+    .fab-btn {
+      position: fixed;
+      right: 2.2rem;
+      bottom: 2.2rem;
+      z-index: 100;
+      background: linear-gradient(90deg, #c70000 60%, #ff4d4d 100%);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      box-shadow: 0 4px 24px rgba(199,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      outline: none;
+    }
+    .fab-btn:active {
+      transform: scale(0.96);
+    }
+    .stats-cards {
+      display: flex;
+      gap: 1.2rem;
+      margin: 2.2rem 0 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .stats-card {
+      flex: 1 1 160px;
+      background: #fff;
+      border: 2px solid #ffb3b3;
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(199,0,0,0.07);
+      font-size: 1.1rem;
+      color: #c70000;
+      font-weight: bold;
+      min-width: 140px;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+      animation: popIn 0.7s forwards;
+    }
+    .stats-card:nth-child(1) { animation-delay: 0.05s;}
+    .stats-card:nth-child(2) { animation-delay: 0.15s;}
+    .stats-card:nth-child(3) { animation-delay: 0.25s;}
+    .stats-card .stats-num {
+      font-size: 2.1rem;
+      color: #c70000;
+      font-weight: 900;
+      margin-bottom: 0.2em;
+      display: block;
+    }
+    /* Blood drop animation */
+    .blood-drop {
+      position: absolute; top: -50px;
+      width: 18px; height: 28px;
+      background: #b30000;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: fall 5s linear infinite;
+      opacity: 0.9; z-index: 1;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) scale(1); opacity: 0.9; }
+      100% { transform: translateY(100vh) scale(0.8); opacity: 0.3; }
+    }
+    @media (max-width: 900px) {
+      .stats-cards { flex-direction: column; gap: 0.8rem;}
+    }
+    a:focus, button:focus, input:focus, select:focus {
+      outline: 2px solid #c70000;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Black Splash Screen -->
+  <div class="splash">
+    <h1>Lifeline – Bridging Blood Donors and Recipients in Real Time</h1>
+  </div>
+  <!-- Animated blood drops -->
+  <div class="blood-drop" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="blood-drop" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="blood-drop" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="blood-drop" style="left: 70%; animation-delay: 1.5s;"></div>
+  <div class="blood-drop" style="left: 85%; animation-delay: 0.5s;"></div>
+  <header>
+    <div class="hero-bg" aria-hidden="true"></div>
+
+      <span class="pulse"><i class="fas fa-droplet"></i></span>
+      Lifeline
+    </h1>
+    <div style="font-size:1.2rem; margin-top:0.5rem; font-weight:400;">
+      Emergency Blood Request Platform
+    </div>
+  </header>
+  <nav>
+    <a href="#home" class="active" aria-label="Home"><i class="fas fa-house"></i>Home</a>
+    <a href="#request" aria-label="Request Blood"><i class="fas fa-hand-holding-droplet"></i>Request Blood</a>
+    <a href="#banks" aria-label="Blood Banks"><i class="fas fa-hospital"></i>Blood Banks</a>
+    <a href="#donors" aria-label="Volunteer Donors"><i class="fas fa-users"></i>Volunteer Donors</a>
+    <a href="#about" aria-label="About"><i class="fas fa-circle-info"></i>About</a>
+  </nav>
+  <div class="container active" id="home">
+    <h2>Welcome to Lifeline</h2>
+    <div class="about-highlight">
+      <i class="fas fa-bolt" style="color:#c70000"></i>
+      <b>Instantly connect</b> with blood banks and donors in your area. Save lives with every drop!
+    </div>
+    <div class="stats-cards" aria-label="Lifeline statistics">
+      <div class="stats-card">
+        <span class="stats-num" id="stat-donors">0</span>
+        Donors Available Today
+      </div>
+      <div class="stats-card">
+        <span class="stats-num" id="stat-requests">0</span>
+        Requests Fulfilled
+      </div>
+      <div class="stats-card">
+        <span class="stats-num" id="stat-banks">0</span>
+        Blood Banks Connected
+      </div>
+    </div>
+    <div style="margin-bottom:1.2em;">
+      <div style="font-weight:600;color:#c70000;">Lives saved this week</div>
+      <div class="progress-bar" aria-label="Lives saved progress">
+        <div class="progress-bar-inner" id="livesProgress" style="width:0%">0</div>
+      </div>
+    </div>
+    <a href="#request" class="btn" id="requestBloodBtn"><i class="fas fa-hand-holding-droplet"></i> Request Blood Now</a>
+    <div style="margin-top:2.5rem;">
+
+    </div>
+  </div>
+  <div class="container" id="request">
+    <h2>Request Blood</h2>
+    <div class="card">
+      <form id="bloodRequestForm" autocomplete="off" aria-label="Blood request form">
+        <label for="bloodGroup">Select Required Blood Group:</label>
+        <select name="bloodGroup" id="bloodGroup" required aria-required="true">
+          <option value="">Select</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+        </select>
+        <label for="location">Your Location (required):</label>
+        <input type="text" id="location" placeholder="e.g. Andheri, Mumbai" required aria-required="true">
+        <button class="btn" type="button" id="autoLocation" aria-label="Auto-detect location" style="margin-bottom:1em;"><i class="fas fa-location-crosshairs"></i> Auto-detect Location</button>
+        <label for="contact">Your Contact Number (required):</label>
+        <div style="display:flex;gap:0.5em;">
+          <select id="countryCode" aria-label="Country code" style="width:5.5em;">
+            <option value="+91">+91 🇮🇳</option>
+            <option value="+1">+1 🇺🇸</option>
+            <option value="+44">+44 🇬🇧</option>
+            <option value="+971">+971 🇦🇪</option>
+          </select>
+          <input type="text" id="contact" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" required aria-required="true" style="flex:1;">
+        </div>
+        <button class="btn" type="submit" id="checkBtn"><i class="fas fa-search"></i> Check Availability</button>
+      </form>
+    </div>
+    <div id="result"></div>
+  </div>
+  <div class="container" id="banks">
+    <h2>Nearby Blood Banks</h2>
+    <input type="text" id="bankSearch" class="search-input" placeholder="Search by name or area..." aria-label="Search blood banks">
+    <div class="bank-list" id="bankList">
+      <div class="card" data-name="Mumbai Central Blood Bank" data-area="Mumbai Central">
+        <p>
+          <i class="fas fa-hospital" style="color:#c70000"></i>
+          <strong>Mumbai Central Blood Bank</strong><br>
+          <i class="fas fa-location-dot"></i> Mumbai Central<br>
+          <i class="fas fa-phone"></i> 022-123456
+        </p>
+        <a href="tel:022123456" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+      <div class="card" data-name="Andheri Blood Bank" data-area="Andheri East">
+        <p>
+          <i class="fas fa-hospital" style="color:#c70000"></i>
+          <strong>Andheri Blood Bank</strong><br>
+          <i class="fas fa-location-dot"></i> Andheri East<br>
+          <i class="fas fa-phone"></i> 022-654321
+        </p>
+        <a href="tel:022654321" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+      <div class="card" data-name="Fortis Blood Bank" data-area="Mulund">
+        <p>
+          <i class="fas fa-hospital" style="color:#c70000"></i>
+          <strong>Fortis Blood Bank</strong><br>
+          <i class="fas fa-location-dot"></i> Mulund<br>
+          <i class="fas fa-phone"></i> 022-998877
+        </p>
+        <a href="tel:022998877" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+      <div class="card" data-name="Red Cross Blood Bank" data-area="Bandra">
+        <p>
+          <i class="fas fa-hospital" style="color:#c70000"></i>
+          <strong>Red Cross Blood Bank</strong><br>
+          <i class="fas fa-location-dot"></i> Bandra<br>
+          <i class="fas fa-phone"></i> 022-445566
+        </p>
+        <a href="tel:022445566" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="donors">
+    <h2>Volunteer Donors</h2>
+    <input type="text" id="donorSearch" class="search-input" placeholder="Search by name, group or area..." aria-label="Search donors">
+    <div class="donor-list" id="donorList">
+      <div class="card" data-name="Rahul Sharma" data-group="B+" data-area="Dadar">
+        <p>
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="donor-avatar" alt="Rahul Sharma">
+          <strong>Rahul Sharma</strong>
+          <span class="badge" title="5+ Donations – Lifesaver Badge"><i class="fas fa-medal"></i> Lifesaver</span><br>
+          <i class="fas fa-droplet" style="color:#c70000"></i> B+<br>
+          <i class="fas fa-phone"></i> <a href="tel:9876543210" style="color:#c70000;text-decoration:none;">9876543210</a><br>
+          <i class="fas fa-location-dot"></i> Dadar
+        </p>
+        <a href="tel:9876543210" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Donor</a>
+      </div>
+      <div class="card" data-name="Priya Mehta" data-group="O+" data-area="Bandra">
+        <p>
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="donor-avatar" alt="Priya Mehta">
+          <strong>Priya Mehta</strong>
+          <span class="badge" title="3+ Donations"><i class="fas fa-star"></i> 3+</span><br>
+          <i class="fas fa-droplet" style="color:#c70000"></i> O+<br>
+          <i class="fas fa-phone"></i> <a href="tel:9123456780" style="color:#c70000;text-decoration:none;">9123456780</a><br>
+          <i class="fas fa-location-dot"></i> Bandra
+        </p>
+        <a href="tel:9123456780" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Donor</a>
+      </div>
+      <div class="card" data-name="Amit Joshi" data-group="AB+" data-area="Thane">
+        <p>
+          <img src="https://randomuser.me/api/portraits/men/65.jpg" class="donor-avatar" alt="Amit Joshi">
+          <strong>Amit Joshi</strong>
+          <span class="badge" title="1st Donation"><i class="fas fa-heart"></i> New</span><br>
+          <i class="fas fa-droplet" style="color:#c70000"></i> AB+<br>
+          <i class="fas fa-phone"></i> <a href="tel:9988776655" style="color:#c70000;text-decoration:none;">9988776655</a><br>
+          <i class="fas fa-location-dot"></i> Thane
+        </p>
+        <a href="tel:9988776655" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Donor</a>
+      </div>
+      <div class="card" data-name="Sneha Patil" data-group="A-" data-area="Navi Mumbai">
+        <p>
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" class="donor-avatar" alt="Sneha Patil">
+          <strong>Sneha Patil</strong>
+          <span class="badge" title="5+ Donations – Lifesaver Badge"><i class="fas fa-medal"></i> Lifesaver</span><br>
+          <i class="fas fa-droplet" style="color:#c70000"></i> A-<br>
+          <i class="fas fa-phone"></i> <a href="tel:8877665544" style="color:#c70000;text-decoration:none;">8877665544</a><br>
+          <i class="fas fa-location-dot"></i> Navi Mumbai
+        </p>
+        <a href="tel:8877665544" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Donor</a>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="about">
+    <h2>About Lifeline</h2>
+    <div class="about-highlight">
+      <i class="fas fa-lightbulb" style="color:#c70000"></i>
+      Lifeline is a <b>real-time, AI-powered</b> platform to assist patients during emergencies. We connect hospitals, blood banks, and donors instantly with smart location-based alerts and notifications.
+    </div>
+    <ul style="font-size:1.1rem;line-height:1.7;">
+      <li><b>Instant blood request</b> and matching</li>
+      <li><b>Nearby blood banks</b> with direct call option</li>
+      <li><b>Verified volunteer donors</b> in your area</li>
+      <li>Modern, mobile-friendly design</li>
+      <li>100% free and privacy-focused</li>
+    </ul>
+    <p style="margin-top:2rem;">
+      <b>Contact us:</b> <a href="mailto:lifeline@redwhite.org" style="color:#c70000;">lifeline@redwhite.org</a>
+    </p>
+  </div>
+  <footer>
+    <p>© 2025 Lifeline Project – Built with ❤️ in Red & White</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+  <button class="fab-btn" id="fabBtn" aria-label="Request Blood Now"><i class="fas fa-plus"></i></button>
+  <script>
+    // Splash screen removal
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.querySelector('.splash').style.display = 'none';
+      }, 5000);
+    });
+    // Section navigation
+    document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.querySelector('nav a[href="#home"]').classList.add('active');
+    document.querySelectorAll('nav a').forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        const sectionId = this.getAttribute('href').replace('#', '');
+        if (document.getElementById(sectionId)) {
+          document.getElementById(sectionId).classList.add('active');
+          this.classList.add('active');
+        }
+        window.scrollTo({top:0,behavior:'smooth'});
+      });
+    });
+    document.getElementById('requestBloodBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      document.getElementById('request').classList.add('active');
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      document.querySelector('nav a[href="#request"]').classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    document.getElementById('fabBtn').addEventListener('click', function() {
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      document.getElementById('request').classList.add('active');
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      document.querySelector('nav a[href="#request"]').classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    // Dark/Light mode toggle
+    const darkToggle = document.getElementById('darkToggle');
+    function setTheme(dark) {
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+      darkToggle.innerHTML = dark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('lifelineTheme', dark ? 'dark' : 'light');
+    }
+    darkToggle.addEventListener('click', () => {
+      setTheme(document.documentElement.getAttribute('data-theme') !== 'dark');
+    });
+    if (localStorage.getItem('lifelineTheme') === 'dark') setTheme(true);
+    // --- Form Validation & UX ---
+    const form = document.getElementById('bloodRequestForm');
+    const checkBtn = document.getElementById('checkBtn');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const bloodGroup = document.getElementById('bloodGroup').value.trim().toUpperCase();
+      const location = document.getElementById('location').value.trim();
+      const contact = document.getElementById('contact').value.trim();
+      const countryCode = document.getElementById('countryCode').value;
+      const result = document.getElementById('result');
+      result.innerHTML = '';
+      checkBtn.disabled = true;
+      checkBtn.innerHTML = '<span class="spinner"></span>AI is searching nearby donors...';
+      setTimeout(() => {
+        checkBtn.disabled = false;
+        checkBtn.innerHTML = '<i class="fas fa-search"></i> Check Availability';
+        if (!bloodGroup || !location || !contact.match(/^[0-9]{10}$/)) {
+          result.innerHTML = '<div class="alert-box"><strong>Please fill all fields correctly.</strong></div>';
+          return;
+        }
+        // Simulate AI-powered matching
+        if (bloodGroup === 'B+' || bloodGroup === 'O+') {
+          result.innerHTML = `<div class="alert-box"><i class="fas fa-check-circle" style="color:#c70000"></i> Blood group <strong>${bloodGroup}</strong> is <b>available</b> at <strong>Mumbai Central Blood Bank</strong> near <b>${location}</b>.<br><a href="#banks" class="btn" style="margin-top:1rem;">View Blood Banks</a></div>`;
+        } else {
+          result.innerHTML = `<div class="alert-box"><i class="fas fa-exclamation-circle" style="color:#c70000"></i> Requested blood group <strong>${bloodGroup}</strong> is <b>not available</b> at blood banks near <b>${location}</b>.<br>Connecting you with <b>volunteer donors</b>...<br><a href="#donors" class="btn" style="margin-top:1rem;">View Donors</a></div>`;
+        }
+        setTimeout(() => {
+          document.querySelectorAll('#result a.btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              const href = this.getAttribute('href');
+              if (href && href.startsWith('#')) {
+                document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                const sectionId = href.replace('#', '');
+                if (document.getElementById(sectionId)) {
+                  document.getElementById(sectionId).classList.add('active');
+                  document.querySelector('nav a[href="' + href + '"]').classList.add('active');
+                }
+                window.scrollTo({top:0,behavior:'smooth'});
+              }
+            });
+          });
+        }, 100);
+      }, 1200);
+    });
+    // Auto-detect location
+    document.getElementById('autoLocation').addEventListener('click', function(e) {
+      e.preventDefault();
+      const locInput = document.getElementById('location');
+      locInput.value = '';
+      locInput.placeholder = 'Detecting location...';
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`)
+            .then(res => res.json())
+            .then(data => {
+              locInput.value = data.address.suburb || data.address.city || data.address.town || data.address.village || data.display_name || '';
+              locInput.placeholder = 'e.g. Andheri, Mumbai';
+            })
+            .catch(() => { locInput.placeholder = 'Could not detect location'; });
+        }, () => { locInput.placeholder = 'Could not detect location'; });
+      } else {
+        locInput.placeholder = 'Geolocation not supported';
+      }
+    });
+    // --- Search/Filter for Banks with Highlight ---
+    function highlightMatch(text, query) {
+      if (!query) return text;
+      const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return text.replace(re, '<span class="highlight">$1</span>');
+    }
+    document.getElementById('bankSearch').addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      document.querySelectorAll('#bankList .card').forEach(card => {
+        const name = card.getAttribute('data-name');
+        const area = card.getAttribute('data-area');
+        if (name.toLowerCase().includes(q) || area.toLowerCase().includes(q)) {
+          card.style.display = '';
+          card.querySelector('strong').innerHTML = highlightMatch(name, q);
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(/<span class="highlight">|<\/span>/g, '');
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(name, highlightMatch(name, q));
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(area, highlightMatch(area, q));
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+    // --- Search/Filter for Donors with Highlight ---
+    document.getElementById('donorSearch').addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      document.querySelectorAll('#donorList .card').forEach(card => {
+        const name = card.getAttribute('data-name');
+        const group = card.getAttribute('data-group');
+        const area = card.getAttribute('data-area');
+        let match = false;
+        if (name.toLowerCase().includes(q) || group.toLowerCase().includes(q) || area.toLowerCase().includes(q)) {
+          match = true;
+        }
+        card.style.display = match ? '' : 'none';
+        if (match) {
+          card.querySelector('strong').innerHTML = highlightMatch(name, q);
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(/<span class="highlight">|<\/span>/g, '');
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(name, highlightMatch(name, q));
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(group, highlightMatch(group, q));
+          card.querySelector('p').innerHTML = card.querySelector('p').innerHTML.replace(area, highlightMatch(area, q));
+        }
+      });
+    });
+    // --- Privacy/Security Notice ---
+    if (!localStorage.getItem('lifelinePrivacyNotice')) {
+      setTimeout(() => {
+        const notice = document.createElement('div');
+        notice.innerHTML = `
+          <div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff5f5;border:2px solid #c70000;padding:1.2rem 2rem;border-radius:12px;box-shadow:0 2px 12px rgba(199,0,0,0.13);z-index:9999;">
+            <b>Privacy Notice:</b> Your data is confidential and used only for emergency matching. <button id="closePrivacy" class="btn" style="margin-left:1rem;padding:0.4rem 1rem;font-size:1rem;">OK</button>
+          </div>
+        `;
+        document.body.appendChild(notice);
+        document.getElementById('closePrivacy').onclick = function() {
+          notice.remove();
+          localStorage.setItem('lifelinePrivacyNotice', '1');
+        };
+      }, 1200);
+    }
+    // --- (Optional) Simulated Real-Time Updates ---
+    setTimeout(() => {
+      if (document.getElementById('donorList')) {
+        const newDonor = document.createElement('div');
+        newDonor.className = 'card';
+        newDonor.setAttribute('data-name', 'Vikas Singh');
+        newDonor.setAttribute('data-group', 'O-');
+        newDonor.setAttribute('data-area', 'Kurla');
+        newDonor.innerHTML = `
+          <p>
+            <img src="https://randomuser.me/api/portraits/men/77.jpg" class="donor-avatar" alt="Vikas Singh">
+            <strong>Vikas Singh</strong>
+            <span class="badge" title="2+ Donations"><i class="fas fa-star"></i> 2+</span><br>
+            <i class="fas fa-droplet" style="color:#c70000"></i> O-<br>
+            <i class="fas fa-phone"></i> <a href="tel:9090909090" style="color:#c70000;text-decoration:none;">9090909090</a><br>
+            <i class="fas fa-location-dot"></i> Kurla
+          </p>
+          <a href="tel:9090909090" class="btn" style="font-size:0.95rem;"><i class="fas fa-phone"></i> Call Donor</a>
+        `;
+        document.getElementById('donorList').appendChild(newDonor);
+        // Update stats
+        document.getElementById('stat-donors').textContent = parseInt(document.getElementById('stat-donors').textContent) + 1;
+      }
+    }, 10000);
+    // --- (Optional) Notification System ---
+    setTimeout(() => {
+      if (window.Notification && Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            new Notification("New donor available!", {
+              body: "Vikas Singh (O-) is now available in Kurla.",
+              icon: "https://randomuser.me/api/portraits/men/77.jpg"
+            });
+          }
+        });
+      }
+    }, 12000);
+    // --- Statistics Dashboard Animation ---
+    function animateStats(id, target, duration) {
+      let start = 0;
+      const el = document.getElementById(id);
+      const step = Math.ceil(target / (duration / 30));
+      function update() {
+        start += step;
+        if (start >= target) {
+          el.textContent = target;
+        } else {
+          el.textContent = start;
+          setTimeout(update, 30);
+        }
+      }
+      update();
+    }
+    animateStats('stat-donors', 5, 900);
+    animateStats('stat-requests', 12, 1200);
+    animateStats('stat-banks', 4, 800);
+    // --- Progress Bar Animation ---
+    setTimeout(() => {
+      const progress = document.getElementById('livesProgress');
+      progress.style.width = '80%';
+      progress.textContent = '16';
+    }, 800);
+  </script>
+</body>
+</html>
