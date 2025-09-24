@@ -19,14 +19,14 @@
 
 ## 🚀 Getting Started
 
-##Project Structure
+## Project Structure
 lifeline/
 │── code.html    # Main application file
 │── README.md     # Project documentation
 
 👥 Contributors
 
-A huge thanks to our amazing contributors 💖
+
 
 <table> <tr> <td align="center"> <a href="https://github.com/Shravanidhuri"> <img src="https://avatars.githubusercontent.com/ShravaniDhuri" width="100px;" alt=""/> <br /><sub><b>Shravani Dhuri</b></sub> </a> </td> <td align="center"> <a href="https://github.com/SagarGujar12"> <img src="https://avatars.githubusercontent.com/SagarGujar12" width="100px;" alt=""/> <br /><sub><b>Sagar Gujar</b></sub> </a> </td> <td align="center"> <a href="https://github.com/onkar-create"> <img src="https://avatars.githubusercontent.com/onkar-create" width="100px;" alt=""/> <br /><sub><b>Onkar Gujulwar</b></sub> </a> </td> </tr> </table>
 
