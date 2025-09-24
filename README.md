@@ -19,12 +19,14 @@
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/lifeline.git
-cd lifeline
+##Project Structure
+lifeline/
+│── code.html    # Main application file
+│── README.md     # Project documentation
 
+👥 Contributors
 
+A huge thanks to our amazing contributors 💖
 
-git clone https://github.com/yourusername/lifeline.git
-cd lifeline
+<table> <tr> <td align="center"> <a href="https://github.com/Shravanidhuri"> <img src="https://avatars.githubusercontent.com/ShravaniDhuri" width="100px;" alt=""/> <br /><sub><b>Your Name</b></sub> </a> </td> <td align="center"> <a href="https://github.com/SagarGujar12"> <img src="https://avatars.githubusercontent.com/SagarGujar12" width="100px;" alt=""/> <br /><sub><b>Contributor 1</b></sub> </a> </td> <td align="center"> <a href="https://github.com/onkar-create"> <img src="https://avatars.githubusercontent.com/onkar-create" width="100px;" alt=""/> <br /><sub><b>Contributor 2</b></sub> </a> </td> </tr> </table>
+
