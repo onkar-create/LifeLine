@@ -1,4 +1,4 @@
-# Lifeline – Emergency Blood Request Platform
+# Lifeline – Bridging Blood Donors and Receipient in Real Time
 
 **Lifeline** is an AI-powered, real-time platform designed to instantly connect patients, hospitals, blood banks, and volunteer donors during emergencies. With a modern interface and smart location-based features, Lifeline helps **save lives with every drop!**
 
